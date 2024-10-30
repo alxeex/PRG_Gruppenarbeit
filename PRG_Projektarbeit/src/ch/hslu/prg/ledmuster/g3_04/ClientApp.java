@@ -7,7 +7,7 @@ import ch.hslu.prg.ledboard.proxy.LedColor;
 import ch.hslu.prg.ledboard.proxy.Led;
 
 public class ClientApp {
-    
+    //Hallo Alex
     //BliblaBlub
 	private static final int DEFAULT_PAUSE_TIME = 100;  // Zeit in Millisekunden zwischen Ein- und Ausschaltaktionen
 
