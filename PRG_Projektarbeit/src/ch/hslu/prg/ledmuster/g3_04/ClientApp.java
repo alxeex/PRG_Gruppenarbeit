@@ -9,6 +9,8 @@ import ch.hslu.prg.ledboard.proxy.Led;
 public class ClientApp {
     //Hallo Alex
     //BliblaBlub
+	
+	//TestTest
 	private static final int DEFAULT_PAUSE_TIME = 100;  // Zeit in Millisekunden zwischen Ein- und Ausschaltaktionen
 
     public static void main(String[] args) {
