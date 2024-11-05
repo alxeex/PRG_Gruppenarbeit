@@ -45,15 +45,16 @@ public class ClientApp {
 		// drawTriangle();
 
 		// Aufgabe 9
+		// createRunningLigth();
 
 		// Aufgabe 10.1
 		// countColors(service);
 
 		// Aufgabe 10.2
-		//countColorExt(service, scanner);
+		// countColorExt(service, scanner);
 
 		// Aufgabe 10.3
-		//countRedLedsOnDiagonals();
+		// countRedLedsOnDiagonals();
 
 		scanner.close();
 	}
@@ -659,6 +660,87 @@ public class ClientApp {
 
 	}
 
+	// Aufgabe 9
+	public static void createRunningLigth() {
+		BoardService boardService = new BoardService();
+		// Es wir die Reihe für alle LEDs definiert
+		int y = 0;
+
+		// Eine LED-Reihe hinzufügen.
+		Led[][] led = boardService.add(1);
+
+		// Alle LEDs aktivieren
+		for (int i = 0; i < BoardService.LEDS_PER_ROW; i++) {
+			led[y][i].turnOn();
+		}
+
+		// Wir erstellen Variablen für den Beginn und das Ende jeder Farbe
+		int bYellow = 0;
+		int eYellow = 7;
+		int bBlue = 8;
+		int eBlue = 15;
+		int bRed = 16;
+		int eRed = 23;
+		int bGreen = 24;
+		int eGreen = 32;
+
+		// Wir definieren die Farbbereiche für den Beginn
+		for (int i = 0; i < BoardService.LEDS_PER_ROW; i++) {
+			if (i >= bYellow && i <= eYellow) {
+				led[y][i] = boardService.replace(led[y][i], LedColor.YELLOW);
+			}
+			if (i >= bBlue && i <= eBlue) {
+				led[y][i] = boardService.replace(led[y][i], LedColor.BLUE);
+			}
+			if (i >= bRed && i <= eRed) {
+				led[y][i] = boardService.replace(led[y][i], LedColor.RED);
+			}
+			if (i >= bGreen && i <= eGreen) {
+				led[y][i] = boardService.replace(led[y][i], LedColor.GREEN);
+			}
+		}
+
+		// Um diesen Zyklus drei Mal durchlaufen zu lassen, benötigen wir 106 dieser
+		// Schritte
+		for (int cycle = 0; cycle <= 106; cycle++) {
+
+			// Wir überprüfen ob eine Variable den Wert 33 erhalten hat, wenn dies der Fall
+			// ist wird diese auf 0 zurückgesetzt
+			if (bYellow == 33) {
+				bYellow = 0;
+			} else if (bBlue == 33) {
+				bBlue = 0;
+			} else if (bRed == 33) {
+				bRed = 0;
+			} else if (bGreen == 33) {
+				bGreen = 0;
+			}
+
+			// Es wird nun jeweils nur der Beginn jedes LED-Streifen definiert und das alte
+			// LED überschrieben
+			for (int i = 0; i < BoardService.LEDS_PER_ROW; i++) {
+				if (i == bYellow) {
+					led[y][i] = boardService.replace(led[y][i], LedColor.YELLOW);
+				}
+				if (i == bBlue) {
+					led[y][i] = boardService.replace(led[y][i], LedColor.BLUE);
+				}
+				if (i == bRed) {
+					led[y][i] = boardService.replace(led[y][i], LedColor.RED);
+				}
+				if (i == bGreen) {
+					led[y][i] = boardService.replace(led[y][i], LedColor.GREEN);
+				}
+			}
+
+			// Jede Variable wird um eines erhöht
+			bGreen++;
+			bBlue++;
+			bRed++;
+			bYellow++;
+		}
+	}
+
 	// Aufgabe 10.1
 
 	/**
@@ -731,7 +813,7 @@ public class ClientApp {
 	}
 
 	// Aufgabe 10.2
-	private static void countColorExt(BoardService boardService, Scanner scanner) {
+	private static void countColorExt(BoardService service, Scanner scanner) {
 
 		// Maximal zulässige Zeilen
 		int maxRows = BoardService.MAX_ROWS; // die maximale Anzahl Reihen in int maxRows speichern
@@ -739,7 +821,7 @@ public class ClientApp {
 		// Maximale Anzahl LEDs mit zufälliger Farbe einfügen
 		LedColor randomColor = LedColor.RANDOM; // Aus der Klasse LedColor ein Objekt namens randomColor erstellen (es
 												// hat eine zufällige Farbe)
-		Led[][] leds = boardService.add(maxRows, randomColor); // zweidimensionales Array namens leds erstellen
+		Led[][] leds = service.add(maxRows, randomColor); // zweidimensionales Array namens leds erstellen
 		// mit add Methdode maximale anzahl Reihen und zufällig gefärbte LEDs einfügen
 
 		// LEDs einschalten
@@ -829,6 +911,12 @@ public class ClientApp {
 		// Maximale Anzahl LED-Reihen dem Board hinzfügen einer beliebigen Farbe
 		Led[][] led = boardService.add(BoardService.MAX_ROWS, LedColor.GREEN);
 
+		// Einzelne LEDs rot färben um die Methode zu testen
+		led[5][5] = boardService.replace(led[5][5], LedColor.RED);
+		led[29][2] = boardService.replace(led[29][2], LedColor.RED);
+		led[20][20] = boardService.replace(led[20][20], LedColor.RED);
+		led[19][12] = boardService.replace(led[19][12], LedColor.RED);
+
 		// Alle Leds aktivieren
 		for (int reihe = 0; reihe < BoardService.MAX_ROWS; reihe++) {
 			for (int kollone = 0; kollone < BoardService.LEDS_PER_ROW; kollone++) {
@@ -851,8 +939,9 @@ public class ClientApp {
 		// Alle roten Leds auf der Hilfsdiagonale (von unten links nach oben rechts)
 		// werden gezählt
 		for (int reihe = BoardService.MAX_ROWS; reihe >= 0; reihe--) {
-			for (int kollone = 0; kollone < BoardService.MAX_ROWS; kollone++) {
-				if (reihe == kollone && led[reihe][kollone].getColor().toString() == "RED") {
+			for (int kollone = 0; kollone < BoardService.LEDS_PER_ROW; kollone++) {
+				if ((reihe + kollone) == BoardService.MAX_ROWS - 1
+						&& led[reihe][kollone].getColor().toString() == "RED") {
 					countRedHilfsdiagonal++;
 
 				}
