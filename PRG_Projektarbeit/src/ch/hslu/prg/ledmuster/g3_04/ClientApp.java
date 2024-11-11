@@ -8,58 +8,83 @@ import ch.hslu.prg.ledboard.proxy.Led;
 
 public class ClientApp {
 
-	private static final int DEFAULT_PAUSE_TIME = 100; // Zeit in Millisekunden zwischen Ein- und Ausschaltaktionen
-
 	public static void main(String[] args) {
 		BoardService service = new BoardService();
 		Scanner scanner = new Scanner(System.in);
 
-		// Aufgabe 1.1 LEDs Ein- und Ausschalten in Reihen
-		// ledsOnOff(service, scanner);
+		// Methodenauswahl
+		System.out.println("Wählen Sie eine Aufgabe:");
+		System.out.println("Aufgabe 1.1");
+		System.out.println("Aufgabe 1.2");
+		System.out.println("Aufgabe 2");
+		System.out.println("Aufgabe 3");
+		System.out.println("Aufgabe 4");
+		System.out.println("Aufgabe 5");
+		System.out.println("Aufgabe 6.1");
+		System.out.println("Aufgabe 6.2");
+		System.out.println("Aufgabe 7");
+		System.out.println("Aufgabe 8");
+		System.out.println("Aufgabe 9");
+		System.out.println("Aufgabe 10.1");
+		System.out.println("Aufgabe 10.2");
+		System.out.println("Aufgabe 10.3");
+		System.out.println();
 
-		// Aufgabe 1.2 LEDs mit Farbe Ein- und Ausschalten
-		// ledsColoredOnOff(service, scanner);
+		// Definition Eingabe
+		String auswahl = scanner.next();
 
-		// Aufgabe 2:
-		// switchEvenOdd(service, scanner);
-
-		// Aufgabe 3
-		// switchRandom(service, scanner);
-
-		// Aufgabe 4: Dezimalanzeige eines zufälligen Bitmusters
-		// showDecimal(service);
-
-		// Aufgabe 5
-		// drawBorder();
-
-		// Aufgabe 6.1
-		// drawSquare();
-
-		// Aufgabe 6.2
-		// drawSquareWithDiagonals();
-
-		// Aufgabe 7
-		// drawRectangle();
-
-		// Aufgabe 8
-		// drawTriangle();
-
-		// Aufgabe 9
-		// createRunningLigth();
-
-		// Aufgabe 10.1
-		// countColors(service);
-
-		// Aufgabe 10.2
-		// countColorExt(service, scanner);
-
-		// Aufgabe 10.3
-		// countRedLedsOnDiagonals();
+		// Benutzerauswahl
+		switch (auswahl) {
+		case "1.1":
+			ledsOnOff(service, scanner);
+			break;
+		case "1.2":
+			ledsColoredOnOff(service, scanner);
+			break;
+		case "2":
+			switchEvenOdd(service, scanner);
+			break;
+		case "3":
+			switchRandom(service, scanner);
+			break;
+		case "4":
+			showDecimal(service);
+			break;
+		case "5":
+			drawBorder();
+			break;
+		case "6.1":
+			drawSquare();
+			break;
+		case "6.2":
+			drawSquareWithDiagonals();
+			break;
+		case "7":
+			drawRectangle();
+			break;
+		case "8":
+			drawTriangle();
+			break;
+		case "9":
+			createRunningLight();
+			break;
+		case "10.1":
+			countColors(service);
+			break;
+		case "10.2":
+			countColorExt(service, scanner);
+			break;
+		case "10.3":
+			countRedLedsOnDiagonals();
+			break;
+		default:
+			System.out.println("Ungültige Eingabe, Programm wird beendet.");
+		}
 
 		scanner.close();
 	}
 
-	// Aufgabe 1: Methode zum Ein- und Ausschalten der LEDs in Reihen
+	// Aufgabe 1.1: Methode zum Ein- und Ausschalten der LEDs in Reihen
 	private static void ledsOnOff(BoardService boardService, Scanner scanner) // als Parameter muss boardservice und
 																				// scanner übergeben werden
 	{
@@ -116,14 +141,14 @@ public class ClientApp {
 			}
 
 			// Weitere Pause
-			boardService.pauseExecution(pausetime);
+			boardService.pauseExecution(2000);
 		}
 
 		// Anzeige zurücksetzen
 		boardService.removeAllLeds();
 	}
 
-	// Methode zum Ein- und Ausschalten farbiger LEDs
+	// Aufgabe 1.2: Methode zum Ein- und Ausschalten farbiger LEDs
 	private static void ledsColoredOnOff(BoardService boardService, Scanner scanner) // Parameter boardService und
 																						// Scanner übergeben
 	{
@@ -192,7 +217,7 @@ public class ClientApp {
 					}
 				}
 
-				boardService.pauseExecution(pausetime); // nochmal eine Pause von 250 Milisekunden
+				boardService.pauseExecution(2000); // nochmal eine Pause von 2000 Milisekunden
 			}
 
 			boardService.removeAllLeds(); // Entfernt LEDs
@@ -292,11 +317,11 @@ public class ClientApp {
 			rows = maxRows;
 		}
 
-		// Anzeigen der LEDs
-		LedColor color = LedColor.RANDOM;
-		Led[][] leds = boardService.add(rows, color);
+		// Erstellen der LEDs in zufälliger Farbe
+		LedColor color = LedColor.RANDOM; // Farbe auf Random setzen
+		Led[][] leds = boardService.add(rows, color); // LEDS erstellen
 
-		// Random
+		// Random Objekt erstellen
 		Random random = new Random();
 
 		// Pause von 2 Sekunden
@@ -399,9 +424,9 @@ public class ClientApp {
 		boardService.removeAllLeds();
 	}
 
-	// Aufgabe 5
-
+	// Aufgabe 5 - Es wird ein Rahmen um das LED-Board gezeichnet
 	public static void drawBorder() {
+		// Als Parameter wird boardService übergeben
 		BoardService boardService = new BoardService();
 
 		// Maximale Anzahl LED-Reihen dem Board hinzfügen
@@ -410,15 +435,19 @@ public class ClientApp {
 		// Für 2 Sekunden halten
 		boardService.pauseExecution(2000);
 
-		// Schaltet alle Rand Leds an
-
-		// Schleife um alle Reihen zwischen den Rand-Reihen herauszufiltern
+		// Alle Rand-LEDs werden angeschalten
+		// Dazu benötigen wir eine doppelte for-Schleife, welche sämtlichen LEDs auf dem
+		// Board durchgeht
+		// Zuerst gehen wir alle Reihen durch
 		for (int reihe = 0; reihe < BoardService.MAX_ROWS; reihe++) {
-			// Schleife um alle Kollonen zwischen den Rand-Kollonen herauszufiltern
+			// Danach gehen wir jedes einzelne LED pro jeweilige Reihe durch
 			for (int kollone = 0; kollone < BoardService.LEDS_PER_ROW; kollone++) {
-				// Nur die Ränder werden angeschalten
+				// Nun wird kontrolliert ob sich das LED in der ersten oder letzten Reihe
+				// befindet oder ob es an jeweils ersten oder letzten Stelle einer Reihe steht
 				if (reihe == 0 || reihe == BoardService.MAX_ROWS - 1 || kollone == 0
 						|| kollone == BoardService.LEDS_PER_ROW - 1) {
+					// Trifft dies zu, schalten wir das LED mit den Koordinaten "reihe" und
+					// "kollone" aus der for-Schleife an
 					led[reihe][kollone].turnOn();
 
 				}
@@ -428,14 +457,19 @@ public class ClientApp {
 		// Für 2 Sekunden halten
 		boardService.pauseExecution(2000);
 
-		// Schaltet alle Rand Leds aus (Gleich wie anschalten nur am Schluss .turnOff)
-		// Schleife um alle Reihen zwischen den Rand-Reihen herauszufiltern
+		// Alle Rand-LEDs werden ausgeschalten
+		// Dazu benötigen wir eine doppelte for-Schleife, welche sämtlichen LEDs auf dem
+		// Board durchgeht
+		// Zuerst gehen wir alle Reihen durch
 		for (int reihe = 0; reihe < BoardService.MAX_ROWS; reihe++) {
-			// Schleife um alle Kollonen zwischen den Rand-Kollonen herauszufiltern
+			// Danach gehen wir jedes einzelne LED pro jeweilige Reihe durch
 			for (int kollone = 0; kollone < BoardService.LEDS_PER_ROW; kollone++) {
-				// Nur die Ränder werden ausgeschalten
+				// Nun wird kontrolliert ob sich das LED in der ersten oder letzten Reihe
+				// befindet oder ob es an jeweils ersten oder letzten Stelle einer Reihe steht
 				if (reihe == 0 || reihe == BoardService.MAX_ROWS - 1 || kollone == 0
 						|| kollone == BoardService.LEDS_PER_ROW - 1) {
+					// Trifft dies zu, schalten wir das LED mit den Koordinaten "reihe" und
+					// "kollone" aus der for-Schleife aus
 					led[reihe][kollone].turnOff();
 
 				}
@@ -445,12 +479,16 @@ public class ClientApp {
 		// Für 2 Sekunden halten
 		boardService.pauseExecution(2000);
 
-		// Anzeige zurückschalten
+		// Anzeige zurückschalten, es werden alle LEDs entfernt
 		boardService.removeAllLeds();
+
 	}
 
 	// Aufgabe 6.1
 	// Öffentliche Statische Methode ohne Rückgabewert
+	// Zuerst werden x und y Koordinaten eingegeben
+	// Anschliessend die Länge des Quadrats, welches anschliessen auf dem GUI
+	// ausgegeben wird
 	public static void drawSquare() {
 		// Erstellung neues Objekt für die Verwendung der Variablen aus dem BoardService
 		BoardService boardService = new BoardService();
@@ -471,33 +509,33 @@ public class ClientApp {
 		System.out.println("Länge: ");
 		int lange = scanner.nextInt();
 
-		// Bedingung für die Einschaltung
+		// Bedingung für die Einschaltung nicht grösser als der Board
 		if (koordinatex + lange <= BoardService.MAX_ROWS && koordinatey + lange <= BoardService.LEDS_PER_ROW) {
-			// Länge des Quadrats
+			// Schleifen um alle Reihen zwischen den Rand-Reihen herauszufiltern
 			for (int lange01 = koordinatex; lange01 < (koordinatex + lange); lange01++) {
-				// Breite des Quadrats
+				// Schelifen um alle Kollonen zwischen den Rand-Reihen heruaszufinden
 				for (int breite01 = koordinatey; breite01 < (koordinatey + lange); breite01++) {
-					// Einschalten der LED auf der gegeben Grösse
+					// Nur die Randreihen werden einschalten LED auf der gegeben Grösse
 					if (lange01 == koordinatex || lange01 == (koordinatex + lange - 1) || breite01 == koordinatey
 							|| breite01 == (koordinatey + lange - 1)) {
-						// Die trunOn Methode ruft die Klasse led auf
+						// Die trunOn Methode ruft die Klasse LED auf dem GUI auf
 						led[lange01][breite01].turnOn();
 					}
 				}
 			}
-			// Meldung falls die Eingabe ungültig ist
+			// Ausgabe falls die Eingabe ungültig ist
 		} else {
 			System.out.println("Diese Eingabe ist ungültig und befindet sich nicht mehr auf dem LED-Board");
 		}
 
-		// Für 2 Sekunden halten
-		boardService.pauseExecution(2000);
-
-		// Alle LEDs entfernen, um den Zustand zu bereinigen
-		boardService.removeAllLeds();
 	}
 
 	// Aufgabe 6.2
+	// éffentliche Statischen Methode ohne Rückgabewert
+	// Zuerst werden x und y Koordinaten eingegeben
+	// Anschliessed die Längedes Quadrats, welches anschliessend auf dem GUI
+	// ausgegeben wird
+	// Zuletzt wird die Diagonale und die Gegendiagonale ausgegeben
 	public static void drawSquareWithDiagonals() {
 		// Erstellung neues Objekt für die Verwendung der Variablen aus dem BoardService
 		BoardService boardService = new BoardService();
@@ -518,15 +556,16 @@ public class ClientApp {
 		System.out.println("Länge: ");
 		int lange = scanner.nextInt();
 
-		// Bedingung für die Einschaltung
+		// Bedingung für die Einschaltung nicht grösser als das Board
 		if (koordinatex + lange <= BoardService.MAX_ROWS && koordinatey + lange <= BoardService.LEDS_PER_ROW) {
-			// Länge des Quadrats
+			// Schleife um alle Reihen zwischen den Rand-Reihen herauszufiltern
 			for (int lange01 = koordinatex; lange01 < (koordinatex + lange); lange01++) {
-				// Breite des Quadrats
+				// Schleife um alle Kollonen zwischen den Rand-Reihen herauszufiltern
 				for (int breite01 = koordinatey; breite01 < (koordinatey + lange); breite01++) {
-					// Einschalten der LED auf der gegeben Grösse
+					// nur die Randreihen LED werden eingeschalten auf der gegebenen Grösse
 					if (lange01 == koordinatex || lange01 == (koordinatex + lange - 1) || breite01 == koordinatey
 							|| breite01 == (koordinatey + lange - 1)) {
+						// Die turnOn Methode ruft die Klasse LED auf dem GUI auf
 						led[lange01][breite01].turnOn();
 					}
 				}
@@ -535,7 +574,7 @@ public class ClientApp {
 		} else {
 			System.out.println("Diese Eingabe ist ungültig und befindet sich nicht mehr auf dem LED-Board");
 		}
-		// For Schleife
+		// For Schleife für die entstehung der Diagonale
 		for (int i = 0; i < lange; i++) {
 			// Erstellung der Diagonalen
 			led[koordinatex + i][koordinatey + i].turnOn();
@@ -543,15 +582,12 @@ public class ClientApp {
 			led[koordinatex + i][koordinatey + lange - 1 - i].turnOn();
 		}
 
-		// Für 2 Sekunden halten
-		boardService.pauseExecution(10000);
-
-		// Anzeige zurückschalten
-		boardService.removeAllLeds();
-
 	}
 
 	// Aufgabe 7
+	// Öffentliche Statische Methode ohne Rückgabe
+	// Zuerst werden die Koordinaten für zwei Punkte auf dem Board gegeben werden
+	// Diese formen anschliessend ein Viereck
 	public static void drawRectangle() {
 		// Erstellung neuer Instanz von der Klasse BoardService
 		BoardService boardService = new BoardService();
@@ -576,21 +612,25 @@ public class ClientApp {
 		System.out.println("y-Koordinaten vom Punkt 2: ");
 		int ykoordinateP2 = scanner.nextInt();
 
+		// Initialisierung der Rechtecklänge
 		int differenzlange = xkoordinateP2 - xkoordinateP1;
+		// Initialisierung der Rechteckbreite
 		int differenzbreite = ykoordinateP2 - ykoordinateP1;
 
 		// Erstellung gefülltes Quadrat
 		// bedinung - muss auf dem Board sein
 		if (xkoordinateP1 <= xkoordinateP2 && ykoordinateP1 <= ykoordinateP2 && xkoordinateP2 <= BoardService.MAX_ROWS
 				&& ykoordinateP2 <= BoardService.LEDS_PER_ROW) {
-			// Schleife für das gefüllte Quadrat
+			// Schleife für das gefüllte Quadrat - Länge
 			for (int lange = xkoordinateP1; lange <= xkoordinateP2; lange++) {
+				// Schleife für das gefüllte Quadrat - Breite
 				for (int breite = ykoordinateP1; breite <= ykoordinateP2; breite++) {
-					// Anschalten der LEDs für gefülltes Quadrat
+					// Die turnOn Methode ruft die Klasse Led auf dem GUI auf
 					led[lange][breite].turnOn();
 				}
 			}
 		} else {
+			// Fehler bei einer falschen Eingabe
 			System.out.println("fehler - Eingabe ungültig");
 		}
 		// 3 Sekunden warten
@@ -598,29 +638,30 @@ public class ClientApp {
 
 		// Schleife für das quardat
 		// der innere Teil wird wider gelöscht - nur der Rahme bleibt
+		// For Schleife für das herausfiltern des inneren Teil des Quadrats - Länge
 		for (int lange01 = xkoordinateP1 + 1; lange01 <= xkoordinateP2 - 1; lange01++) {
+			// For Schleife für das herausfiltern des inneren Teil des Quadrats - Breite
 			for (int breite01 = ykoordinateP1 + 1; breite01 <= ykoordinateP2 - 1; breite01++) {
+				// Aufrufen der turnOn Methode um die Led zum leuchten zu bringen
 				led[lange01][breite01].turnOff();
 			}
 		}
 		// 3 Sekunden warten
 		boardService.pauseExecution(3000);
 		// Der Rahme erhält einen neue Farbe von LEDs - Blau
+		// For Schleife für das herausfiltern des inneren Teil des Rechtecks
 		for (int lange02 = xkoordinateP1; lange02 <= xkoordinateP2; lange02++) {
+			// For Schleife für das herausfiltern des inneren Teil des Rechtecks
 			for (int breite02 = ykoordinateP1; breite02 <= ykoordinateP2; breite02++) {
+				// Nur die LEDs am Rand ansprechen
 				if (lange02 == xkoordinateP1 || lange02 == xkoordinateP2 || breite02 == ykoordinateP1
 						|| breite02 == ykoordinateP2) {
+					// Die LED am Rand mit der Blauenfarbe anschalten
 					led[lange02][breite02].turnOn();
 					boardService.replace(led[lange02][breite02], LedColor.BLUE);
 				}
 			}
 		}
-		// 3 Sekunden warten
-		boardService.pauseExecution(3000);
-
-		// Anzeige zurückschalten
-		boardService.removeAllLeds();
-
 	}
 
 	// Aufgabe 8
@@ -653,28 +694,36 @@ public class ClientApp {
 			// Fehler bei ungültiger Eingabe
 			System.out.println("Die Eingabe ist ungültig");
 		}
-		// warten con 10sek
+		// warten von 10sek
 		boardService.pauseExecution(10000);
 		// Löschen von allen LEDs
 		boardService.removeAllLeds();
 
 	}
 
-	// Aufgabe 9
-	public static void createRunningLigth() {
+	// Aufgabe 9 - Wir erstellen ein Lauflicht von link nach rechts
+	public static void createRunningLight() {
+		// Als Parameter wird boardService übergeben
 		BoardService boardService = new BoardService();
-		// Es wir die Reihe für alle LEDs definiert
+
+		// Es wir die Reihe für alle LEDs definiert, da wir in dieser Aufgabe nur einen
+		// Streifen an LEDs benötigen, legen wir diese auf den Wert 0
 		int y = 0;
 
-		// Eine LED-Reihe hinzufügen.
+		// Nun fügen wir eine Reihe an LEDs hinzu und es wird der Streifen ersichtlich
 		Led[][] led = boardService.add(1);
 
-		// Alle LEDs aktivieren
+		// Mittels einer for-Schleife, welche sämtliche LEDs der Reihe 0 durchgeht,
+		// aktivieren wir die LEDs. Die LEDs erscheinen in rot, da dies die Standard
+		// Farbe ist.
 		for (int i = 0; i < BoardService.LEDS_PER_ROW; i++) {
 			led[y][i].turnOn();
 		}
 
-		// Wir erstellen Variablen für den Beginn und das Ende jeder Farbe
+		// Damit wir die verschiedenen Bereiche auf dem Streifen definieren können,
+		// legen wir den Beginn und das Ende jedes Abschnittes fest.
+		// Der Buchstabe "b" vor der jeweiligen Farbe steht für "Beginn" und der
+		// Buchstabe "e" für "Ende"
 		int bYellow = 0;
 		int eYellow = 7;
 		int bBlue = 8;
@@ -684,9 +733,20 @@ public class ClientApp {
 		int bGreen = 24;
 		int eGreen = 32;
 
-		// Wir definieren die Farbbereiche für den Beginn
+		// Um die geforderte Ausgangslage zu erreichen gehen wir mit einer for-Schleife
+		// jedes LED des Streifen einzeln durch
 		for (int i = 0; i < BoardService.LEDS_PER_ROW; i++) {
+			// Mittels einer if-Anweisung überprüfen wir mit Hilfe der oben definierten
+			// Bereiche, ob das aktuell von der for-Schleife übergebene LED "i", sich im
+			// entsprechenden Farbbereich befindet
+			// Die selbe if-Anweisung benutzen wir für sämtliche Farben, auch für die Farbe
+			// rot, da die Standard Farbe wechseln könnte und dadurch nicht das gewünschte
+			// Resultat entstehen würde
 			if (i >= bYellow && i <= eYellow) {
+				// Trifft dies zu, ersetzen wir das LED "i" mit der entsprechenden Farbe und
+				// weisen es dem selben LED zu.
+				// Die Zuweisung spielt hierbei eine ganz wichtige Rolle, da ansonsten das LED
+				// nicht mehr gefunden werden könnte
 				led[y][i] = boardService.replace(led[y][i], LedColor.YELLOW);
 			}
 			if (i >= bBlue && i <= eBlue) {
@@ -700,24 +760,35 @@ public class ClientApp {
 			}
 		}
 
-		// Um diesen Zyklus drei Mal durchlaufen zu lassen, benötigen wir 106 dieser
-		// Schritte
-		for (int cycle = 0; cycle <= 106; cycle++) {
-
-			// Wir überprüfen ob eine Variable den Wert 33 erhalten hat, wenn dies der Fall
-			// ist wird diese auf 0 zurückgesetzt
-			if (bYellow == 33) {
+		// Wir möchten nun ein Lauflicht erstellen und der ganze Zyklus soll drei Mal
+		// durchlaufen, dafür erstellen wir die Variabel cycle
+		int cycle = 3;
+		// Jeder Zyklus um das Lauflicht einmal durchlaufen zu lassen, benötigt
+		// insgesamt 32 Schritte, für jedes LED einen Schritt. Da wir jedoch mit der
+		// Ausgangslage "b" arbeiten ist folgende Rechnung zu machen
+		// 32 Schritte Mal drei plus 8 Mal einen "leeren" Schritt ganz zu Beginn
+		for (int step = 0; step < ((BoardService.LEDS_PER_ROW * cycle) + 8); step++) {
+			// Wir überprüfen ob eine Variable den Wert 32 erhalten hat um das LED wieder an
+			// den Anfang zu sezten, wenn dies der Fall
+			// ist wird diese auf 0 zurückgesetzt. Es wird absichtlich der Wert 32 benutzt,
+			// auch wenn dieser auf dem Streifen gar nicht vorkommt, da die Erhöhung der
+			// Zahl erst ganz zu letzt in der For-Schleife geschieht
+			if (bYellow == 32) {
 				bYellow = 0;
-			} else if (bBlue == 33) {
+			}
+			if (bBlue == 32) {
 				bBlue = 0;
-			} else if (bRed == 33) {
+			}
+			if (bRed == 32) {
 				bRed = 0;
-			} else if (bGreen == 33) {
+			}
+			if (bGreen == 32) {
 				bGreen = 0;
 			}
 
 			// Es wird nun jeweils nur der Beginn jedes LED-Streifen definiert und das alte
-			// LED überschrieben
+			// LED überschrieben. Auch hier wird die .replace Methode verwendet und dem
+			// gleichen LED zugewiesen, da es ansonten nicht mehr zu finden ist
 			for (int i = 0; i < BoardService.LEDS_PER_ROW; i++) {
 				if (i == bYellow) {
 					led[y][i] = boardService.replace(led[y][i], LedColor.YELLOW);
@@ -733,12 +804,14 @@ public class ClientApp {
 				}
 			}
 
-			// Jede Variable wird um eines erhöht
+			// Nun wird der Wert jedes "Beginns" um eins erhöht und die for-Schleife beginnt
+			// von vorne
 			bGreen++;
 			bBlue++;
 			bRed++;
 			bYellow++;
 		}
+
 	}
 
 	// Aufgabe 10.1
@@ -832,6 +905,8 @@ public class ClientApp {
 
 		}
 
+		service.pauseExecution(2000);
+
 		// Arrays zur Speicherung der maximalen Anzahl LEDs pro Farbe und Zeile
 		int[] maxCountPerColor = new int[LedColor.values().length]; // Array, das für jede Farbe die maximale Anzahl von
 																	// LEDs in einer Zeile speichert.
@@ -904,11 +979,15 @@ public class ClientApp {
 		}
 	}
 
-	// Aufgabe 10.3
+	// Aufgabe 10.3 - Es werden alle roten LEDs auf der Haupt- und Hilfsdiagonalen
+	// gezählt
 	public static void countRedLedsOnDiagonals() {
+		// Als Parameter wird boardService übergeben
 		BoardService boardService = new BoardService();
 
-		// Maximale Anzahl LED-Reihen dem Board hinzfügen einer beliebigen Farbe
+		// Maximale Anzahl LED-Reihen dem Board hinzfügen mit einer anderen Farbe als
+		// rot und leer gelassen darf es auch nicht werden, da rot die Standard-Farbe
+		// ist
 		Led[][] led = boardService.add(BoardService.MAX_ROWS, LedColor.GREEN);
 
 		// Einzelne LEDs rot färben um die Methode zu testen
@@ -917,9 +996,15 @@ public class ClientApp {
 		led[20][20] = boardService.replace(led[20][20], LedColor.RED);
 		led[19][12] = boardService.replace(led[19][12], LedColor.RED);
 
-		// Alle Leds aktivieren
+		// Alle LEDs auf dem Board aktivieren
+		// Dazu benötigen wir eine doppelte for-Schleife, welche sämtlichen LEDs auf dem
+		// Board durchgeht
+		// Zuerst gehen wir alle Reihen durch
 		for (int reihe = 0; reihe < BoardService.MAX_ROWS; reihe++) {
+			// Danach wird jedes einzelne LED der jeweiligen Reihe durchgegangen
 			for (int kollone = 0; kollone < BoardService.LEDS_PER_ROW; kollone++) {
+				// Wir schalten das LED mit den Koordinaten "reihe" und "kollone" aus der
+				// for-Schleife an
 				led[reihe][kollone].turnOn();
 			}
 		}
@@ -930,25 +1015,44 @@ public class ClientApp {
 
 		// Alle roten Leds auf der Haputdiagonale (von oben links nach unten rechts)
 		// werden gezählt
+		// Da alle LEDs auf dieser Diagonale den gleichen Wert auf beiden Koordinaten
+		// haben, können wir diese mit nur einer for-Schleife alle durchgehen
 		for (int reihe = 0; reihe < BoardService.MAX_ROWS; reihe++) {
+			// Mittels einer if-Abfrage und den Methoden .getColor und .getString können wir
+			// sagen ob das LED rot ist oder nicht. Wir verwenden die .toString Methode, da
+			// ein direkter Vergleich mit dem Enum LedColor.RED nicht funktioniert
 			if (led[reihe][reihe].getColor().toString() == "RED") {
+				// Trifft dies zu wird der Zähler um eins erhöht
 				countRedDiagonal++;
 			}
 		}
 
 		// Alle roten Leds auf der Hilfsdiagonale (von unten links nach oben rechts)
 		// werden gezählt
-		for (int reihe = BoardService.MAX_ROWS; reihe >= 0; reihe--) {
+		// Dazu benötigen wir eine doppelte for-Schleife, welche sämtlichen LEDs auf dem
+		// Board durchgeht
+		// Zuerst gehen wir alle Reihen durch
+		for (int reihe = 0; reihe < BoardService.MAX_ROWS; reihe++) {
+			// Danach wird jedes einzelne LED der jeweiligen Reihe durchgegangen
 			for (int kollone = 0; kollone < BoardService.LEDS_PER_ROW; kollone++) {
+				// Mittels einer if-Abfrage und den Methoden .getColor und .getString können wir
+				// sagen ob das LED rot ist oder nicht. Wir verwenden die .toString Methode, da
+				// ein direkter Vergleich mit dem Enum LedColor.RED nicht funktioniert
+				// Zusätzlich haben wir eine zweite Bedingung welche erüllt sein muss, die Summe
+				// von den beiden Koordinaten muss gleich die Max. Anzahl an Reihen sein.Dies
+				// ist aus dem Grund, da dieses Mermal auf alle LED der Hilfsdiagonale zutrifft.
+				// Da diese (die Koordianten) nur bis 31 gehen, wird von BoardService.MAX_ROWS 1
+				// subtrahiert
 				if ((reihe + kollone) == BoardService.MAX_ROWS - 1
 						&& led[reihe][kollone].getColor().toString() == "RED") {
+					// Triff dies zu, wird der Zähler um eins erhöht
 					countRedHilfsdiagonal++;
 
 				}
 			}
 		}
 
-		// Resultate ausgeben
+		// Resultate der beiden Zähler ausgeben
 		System.out.println("RED LEDs Haupt-Diagonale: " + countRedDiagonal);
 		System.out.println("RED LEDs Hilfs-Diagonale: " + countRedHilfsdiagonal);
 
